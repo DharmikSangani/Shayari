@@ -1,21 +1,27 @@
 package com.example.shayari.Adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.shayari.Activity.List_Activity;
 import com.example.shayari.Activity.Main_Activity;
 import com.example.shayari.R;
 
-public class Category_Adapter extends BaseAdapter
+public class Category_Adapter extends RecyclerView.Adapter<Category_Adapter.CategoryHolder>
 {
 
     Main_Activity mainActivity;
-    TextView textView;
-    ImageView imageView;
+    ListView listView;
     String[] name;
     int[] imgArr;
 
@@ -26,31 +32,46 @@ public class Category_Adapter extends BaseAdapter
 
     }
 
+
+    @NonNull
     @Override
-    public int getCount() {
+    public Category_Adapter.CategoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view= LayoutInflater.from(mainActivity).inflate(R.layout.first_item_list,parent,false);
+        CategoryHolder holder=new CategoryHolder(view);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull Category_Adapter.CategoryHolder holder, int position) {
+        holder.textView.setText(""+name[position]);
+        holder.imageView.setImageResource(imgArr[position]);
+    }
+
+    @Override
+    public int getItemCount() {
         return name.length;
+
     }
 
-    @Override
-    public Object getItem(int position) {
-        return position;
-    }
+    public class CategoryHolder extends RecyclerView.ViewHolder {
+        TextView textView;
+        ImageView imageView;
+        public CategoryHolder(@NonNull View itemView) {
+            super(itemView);
+            textView=itemView.findViewById(R.id.main_item_name);
+            imageView=itemView.findViewById(R.id.main_item_img);
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(mainActivity,List_Activity.class);
+                    intent.putExtra("pos",getAdapterPosition());
+                    intent.putExtra("name",name);
 
-    @Override
-    public View getView(int position, View view, ViewGroup parent) {
-        view= LayoutInflater.from(mainActivity).inflate(R.layout.first_item_list,parent,false);
-
-        imageView=view.findViewById(R.id.main_item_img);
-        textView=view.findViewById(R.id.main_item_name);
-
-        textView.setText(""+name[position]);
-        imageView.setImageResource(imgArr[position]);
-
-        return view;
+                    intent.putExtra("img",imgArr[getAdapterPosition()]);
+                    mainActivity.startActivity(intent);
+                }
+            });
+        }
     }
 }

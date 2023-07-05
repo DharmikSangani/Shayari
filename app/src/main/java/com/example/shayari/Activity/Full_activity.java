@@ -69,6 +69,39 @@ public class Full_activity extends AppCompatActivity implements  OnClickListener
         textView.setText(config.emojiArr[i] + "\n" + temp1[position] + "\n" + config.emojiArr[i]);
         t1.setText((position + 1) + "/" + temp1.length);
 
+        ShayriPagerAdapter adapter=new ShayriPagerAdapter(Full_activity.this,temp1,textView);
+
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(position);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                textView.setText(""+temp1[position]);
+                if(position<temp1.length-1)
+                {
+                    t1.setText((position+1)+"/"+temp1.length);
+                    textView.setText(""+temp1[position]);
+                    textView.setText(config.emojiArr[i] + "\n" + temp1[position] + "\n" + config.emojiArr[i]);
+                }
+                else if(position > 0)
+                {
+                    t1.setText((position+1)+"/"+temp1.length);
+                    textView.setText(""+temp1[position]);
+                    textView.setText(config.emojiArr[i] + "\n" + temp1[position] + "\n" + config.emojiArr[i]);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
     }
 
 
@@ -142,37 +175,6 @@ public class Full_activity extends AppCompatActivity implements  OnClickListener
         }
 
 
-        ShayriPagerAdapter adapter=new ShayriPagerAdapter(Full_activity.this,temp1,textView);
 
-        viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(position);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                textView.setText(""+temp1[position]);
-                if(position<temp1.length-1)
-                {
-                    t1.setText((position+1)+"/"+temp1.length);
-                    textView.setText(""+temp1[position]);
-                    textView.setText(config.emojiArr[i] + "\n" + temp1[position] + "\n" + config.emojiArr[i]);
-                }
-                else if(position > 0)
-                {
-                    t1.setText((position+1)+"/"+temp1.length);
-                    textView.setText(""+temp1[position]);
-                    textView.setText(config.emojiArr[i] + "\n" + temp1[position] + "\n" + config.emojiArr[i]);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 }
